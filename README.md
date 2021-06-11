@@ -46,6 +46,7 @@ git clone https://github.com/Daniel-Fauland/CNN_Image_Classification_Generator.g
 cd CNN_Image_Classification_Generator
 ```
 **Windows:**
+
 4. Install [**requirements_windows.yml**](requirements_windows.yml). This will created a new virtual environment that is separated from you existing python installation and therefore will not interfere with any of your other packages:
     ``` shell
     conda env create -f requirements_windows.yml
