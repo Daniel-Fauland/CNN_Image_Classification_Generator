@@ -54,7 +54,7 @@ class Preprocess():
                         error.append(folder + "/" + file)  # Adds file to error list if open-cv could not open it for some reason
 
                 count += 1
-                sys.stdout.write('\r' + "Loaded folder {}/{}".format(count, len(data)))
+                sys.stdout.write('\r' + "Preprocessed folder {}/{}".format(count, len(data)))
 
         else:
             data = sorted_nicely(data)

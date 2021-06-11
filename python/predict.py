@@ -22,6 +22,12 @@ class Predict():
 
     # ============================================================
     def get_images(self, shape):
+        def sorted_nicely(data):
+            """ Sort the given iterable in the way that humans expect."""
+            convert = lambda text: int(text) if text.isdigit() else text
+            alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+            return sorted(data, key=alphanum_key)
+
         if os.path.exists(self.path_data + "/insert your own images here that you want to predict.txt"):
             os.remove(self.path_data + "/insert your own images here that you want to predict.txt")
             time.sleep(0.5)
@@ -34,6 +40,7 @@ class Predict():
             os.remove(self.path_data + "/" + ".DS_Store")
             time.sleep(1)
             data = os.listdir(self.path_data)
+        data = sorted_nicely(data)
         for file in data:
             try:
                 image = cv2.imread(self.path_data + "/" + file)

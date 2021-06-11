@@ -145,9 +145,9 @@ class Augmentation():
             sys.stdout.write('\r' + "Processed folder {}/{}.".format(count, len(data)))
         if count_img > 0:
             sys.stdout.write('\r' + "Successfully deleted all {} augmented images.".format(count_img))
+            print("\nDecreased training data from {} images to its original size of {} images.".format(count_src, count_src - count_img))
         else:
             sys.stdout.write('\r' + "No augmented images have been found in this dataset.")
-        print("\nDecreased training data from {} images to its original size of {} images.".format(count_src, count_src - count_img))
 
         if gui_mode == 0:
             print("\n[1]: Continue training without augmented images\n[2]: Create new augmentations and continue training\n[3]: Exit")
