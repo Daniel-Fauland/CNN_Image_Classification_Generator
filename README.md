@@ -65,6 +65,7 @@ cd CNN_Image_Classification_Generator
 
    
 **MacOS:**
+
 4. Create a new virtual environment:
     ``` shell
     conda create --name tf python=3.8.5
