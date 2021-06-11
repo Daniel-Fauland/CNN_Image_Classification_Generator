@@ -5,6 +5,7 @@ Fully automated TF2 CNN image classifier to automatically train and predict imag
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Prerequisites](#prerequisites)
 - [Train a model](#train-a-model)
     - [Augmentation options](#augmentation-options)
     - [Label options](#label-options)
@@ -19,32 +20,64 @@ Fully automated TF2 CNN image classifier to automatically train and predict imag
 The goal of this project is to provide an easy way to train and predict a CNN in TF. 
 It is meant to be used by beginners who just started their data science journey and for people who quickly want to train a decent performing image classifier with minimal effort. 
 Some key features are:
+- GUI
 - Augmentation of images of your choice via a few inputs
-- Creating a labels file with minimal effort if no file is provided
 - Choose different preprocessing options
 - Build the model via a few inputs
 - Choose preferred execution mode
 
+## Prerequisites
+Make sure you have [Anaconda](https://docs.anaconda.com/anaconda/install/) installed.
+- Windows:
+    - Install the windows version of Anaconda [here](https://docs.anaconda.com/anaconda/install/windows/)
+    - Make sure you add conda to PATH (or you can't use conda commands from CMD)
+- Mac: Install the MacOS version of Anaconda [here](https://docs.anaconda.com/anaconda/install/mac-os/)
+- Linux: Install the Linux version of Anaconda [here](https://docs.anaconda.com/anaconda/install/linux/)
+    
+
 ## Installation
-1. Clone this repository to your machine via the following command:
+1. Open command line and navigate to a directory of your choice. 
+2. Clone this repository to your machine via the following command:
 ``` shell
-git clone https://github.com/Daniel-Fauland/Automated-CNN-Image-Classifier-TF.git
+git clone https://github.com/Daniel-Fauland/CNN_Image_Classification_Generator.git
 ```
-2. Install [**requirements.txt**](requirements.txt):
+3. Navigate to the cloned repository:
 ``` shell
-pip install -r requirements.txt
+cd CNN_Image_Classification_Generator
 ```
-3. Extract your training data to the folder *'training_data'*. 
-4. Put your labels file in form of a csv into the *'labels'* folder (optional).
+4. Install [**conda_requirements.txt**](conda_requirements.txt). This will created a new virtual environment that is separated from you existing python installation and therefore will not interfere with any of your other packages:
+``` shell
+conda env create -f conda_requirements.txt
+```
+5. Activate the new virtual environment:
+``` shell
+conda activate tf
+```
+6. You can now run it from your command line:
+    - You can use the GUI by typing:
+    ``` shell
+    python start_gui.py
+    ```
+    - Or you can use the command line version:
+    ``` shell
+    python train_model.py
+    python predict_data.py
+    ```
+7. You can also open this project in an IDE (e.g. PyCharm): 
+    - Open PyCharm > Go to File > Open > Select CNN_Image_Classification_Generator
+    - Go Settings > Project: CNN_Image_Classification_Generator > Python Interpreter
+    - Click the dropdown menu and click 'Show all'
+    - Select the Conda env 'tf' and click 'Apply'
 
 ## Train a model
 Make sure your training data and labels file (if you have one) fulfill the following conditions:
 - You have one folder containing all the images for each category (no sub folders within a category)
-- You do not have a seperate folder with validation images
+- You do not have a separate folder with validation images
 - The folder and file names contain only the following characters: **'a-z A-Z 0-9 _ - + . \*'**
 - The categories in your labels file appear in the same order as the alphabetically orderd folders in 'training_data' --> The category name for the third folder is in the third line in your labels file and the category name for the fith folder is in the fith line in your labels file, etc.
    
-Run the [**train_model.py**](train_model.py) file. <br />
+Run the [**start_gui.py**](start_gui.py) (GUI verison) or [**train_model.py**](train_model.py) (command line version) file. <br />
+You can select a background image for the gui by changing the value of the variable img in [**start_gui.py**](start_gui.py) <br />
 **Note:** By default all info, logs and warnings are deactivated. They can be turned back on if you change the following statement in line 2 in file 
 [**augmentation.py**](python/augmentation.py), [**preprocess.py**](python/preprocess.py), [**model.py**](python/model.py) and [**predict.py**](python/predict.py):
 ``` python
@@ -68,10 +101,14 @@ You can choose one or more options by typing the displayed number separated by s
 Type '1' or click enter to skip the augmentation. You can also delete your augmentations by typing '11'. <br />
 The values of hue, saturation, brightness and contrast can be changed in [**augmentation.py**](python/augmentation.py).
 
+**GUI version:** Select the augmentations via checkboxes.
+
 ### Label options
 A label file is used for assigning your folders names in form of a string. You can either provide a labels file in form of a csv or create a labels file with a built-in function in the code.
 If you choose to create the labels file via the built-in function you have to provide a name for each folder. Alternatively you can press enter without providing a name. 
 In this case the label name for the folder will be the same as the folder name itself.
+
+**GUI version:** A table will be shown where you can enter the label names.
 
 ### Preprocessing options
 The preprocessing transforms the data in a way that TF accepts the data as a valid input. 
@@ -85,18 +122,23 @@ Type e.g. '64 32' to  resize all images to 64px width and 32px height. Alternati
 3. [Normalization](https://en.wikipedia.org/wiki/Normalization_(image_processing)) of images: Normalize the pixel values of all images by typing '1' or pressing enter. 
    The pixel value of normalized images only range from **0** to **1** instead of **0** to **255**.
    
+   
+**GUI version:** Select your Preprocessing options via checkboxes.
+   
 ### Training options
 In training options you can adjust 3 major settings:
 1. Validation size: Validation size specifies how much % of a data is used to test the model accuracy and loss.
 Type e.g. '20' for a validation size of 20 %.
    
 2. Number of epochs: Choose how often you want to iterate over all training images. 
-   If this number is to small your model will [underfit](https://www.tensorflow.org/tutorials/keras/overfit_and_underfit) but if the number is too high on the other hand your model will likely [overfit](https://www.tensorflow.org/tutorials/keras/overfit_and_underfit)
+   If this number is to small your model will [underfit](https://www.tensorflow.org/tutorials/keras/overfit_and_underfit) but if the number is too high on the other hand your model will likely [overfit](https://www.tensorflow.org/tutorials/keras/overfit_and_underfit).
    
 3. Batch size: The batch size specifies how many images you pass to the model at once before the model weights are updated. A higher batch size can increase the training speed as well as the model quality at the cost of more ram.
 Keep in mind that a batch size that is too high can lead to worse generalization in some cases. This means that the highest possible batch size is not necessarily the best option.
    You can read more about batch size in [this article](https://machinelearningmastery.com/difference-between-a-batch-and-an-epoch/).
    
+**GUI version:** You can enter a number for these options via an input box.
+
 ### Model options
 You can either define the model structure yourself (type '1' or press enter) or use the predefined model structure (type '2'). The model structure of the chosen model will be saved in the file [**model_summary.txt**](python/model_summary.txt) when the training starts.
 The structure of the predefined model can be viewed in the file [**predefined_model_summary.txt**](python/predefined_model_summary.txt) . It has the following structure:
@@ -125,12 +167,18 @@ Depending on your installation you might want to choose the execution mode yours
   That is why option \[2] is the better execution mode in most situations.)
 - \[4]: Force CPU for training and predicting = If you have any problems whatsoever with you GPU, use this mode.
 
+**GUI version:** You can select your preferred option via a dropdown menu.
+
 ## Predict data
-Put the images that you want to predict inside the *predict_data* folder and run [**predict_data.py**](predict_data.py).
-Make sure your prediction data fulfills the following conditions:
-- You put only images insides the *predict_data* folder (no folders).
+**Command line version:** Put the images that you want to predict inside the *predict_data* folder and run [**predict_data.py**](predict_data.py).
+
+**GUI version:** Select the path to the images you want to predict as well as the checkpoint path and labels path.
+
+**Make sure your prediction data fulfills the following conditions:**
+- You put only images insides the *predict_data* directory / your desired directory if you use the GUI version.
 - All images are either **'.png'** or **'.jpg'** or **'.jpeg'**
 - The file names contain only the following characters: **'a-z A-Z 0-9 _ - + . \*'**
+- There are no subfolders within this directory.
 
 
 ## Change the predefined model structure
