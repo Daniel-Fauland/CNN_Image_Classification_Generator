@@ -1,0 +1,9 @@
+opencv-python
+numpy
+pandas
+matplotlib
+tensorflow==2.4.1
+scikit-learn
+tabulate
+tkintertable
+tkinter
