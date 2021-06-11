@@ -45,29 +45,58 @@ git clone https://github.com/Daniel-Fauland/CNN_Image_Classification_Generator.g
 ``` shell
 cd CNN_Image_Classification_Generator
 ```
-4. Install [**conda_requirements.txt**](conda_requirements.txt). This will created a new virtual environment that is separated from you existing python installation and therefore will not interfere with any of your other packages:
-``` shell
-conda env create -f conda_requirements.txt
-```
+**Windows:**
+4. Install [**requirements_windows.yml**](requirements_windows.yml). This will created a new virtual environment that is separated from you existing python installation and therefore will not interfere with any of your other packages:
+    ``` shell
+    conda env create -f requirements_windows.yml
+    ```
 5. Activate the new virtual environment:
+    ``` shell
+    conda activate tf
+    ```
+6. _Optional:_
+    - If you have a NVIDIA GPU and you want to use the GPU for training and/or predicting you have to download additional drivers
+    - You need a free NVIDIA developer [account](https://developer.nvidia.com/developer-program)  
+    - You need to download and install [NVIDIA CUDA 11.1.0](https://developer.nvidia.com/cuda-toolkit-archive)
+    - Download [cuDNN v8.0.5](https://developer.nvidia.com/rdp/cudnn-archive) for CUDA 11.1
+    - Watch installation guide [here](https://youtu.be/hHWkvEcDBO0?t=235)
+    - Make sure you download the specific version given above and not an older/newer version because there is a high chance that it will not work
+
+   
+**MacOS:**
+4. Create a new virtual environment:
+    ``` shell
+    conda create --name tf python=3.8.5
+    ```
+5. Activate the new environment:
+    ``` shell
+    conda activate tf
+    ```
+6. Install [**requirements_mac.txt**](requirements_mac.txt). This will install all necessary packages for this project:
+    ``` shell
+    pip install -r requirements_mac.txt
+    ```
+
+<br />
+After the installation is complete you can run it from your command line:
+
+- You can use the GUI by typing:
 ``` shell
-conda activate tf
+python start_gui.py
 ```
-6. You can now run it from your command line:
-    - You can use the GUI by typing:
-    ``` shell
-    python start_gui.py
-    ```
-    - Or you can use the command line version:
-    ``` shell
-    python train_model.py
-    python predict_data.py
-    ```
-7. You can also open this project in an IDE (e.g. PyCharm): 
-    - Open PyCharm > Go to File > Open > Select CNN_Image_Classification_Generator
-    - Go Settings > Project: CNN_Image_Classification_Generator > Python Interpreter
-    - Click the dropdown menu and click 'Show all'
-    - Select the Conda env 'tf' and click 'Apply'
+- Or you can use the command line version:
+``` shell
+python train_model.py
+python predict_data.py
+```
+
+You can also open this project in an IDE (e.g. PyCharm): 
+- Open PyCharm > Go to File > Open > Select CNN_Image_Classification_Generator
+- Go Settings > Project: CNN_Image_Classification_Generator > Python Interpreter
+- Click the dropdown menu and click 'Show all'
+- Select the Conda env 'tf' and click 'Apply'
+- (If it's not listed click the '+' icon > Conda Environment > Existing environment > Interpreter > Choose the environment folder)
+
 
 ## Train a model
 Make sure your training data and labels file (if you have one) fulfill the following conditions:
