@@ -23,8 +23,10 @@ class GUI():
         # Check which Operating system is used
         if platform.system() != "Windows":
             self.settings["os"] = "y"
+            self.height = "560"
         else:
             self.settings["os"] = "n"
+            self.height = "500"
         self.settings["mode"] = "1"
 
 
@@ -89,8 +91,11 @@ class GUI():
             self.data = os.listdir(self.training_path.get())
             if ".DS_Store" in self.data:  # ONLY NECESSARY FOR MACOS
                 os.remove(self.training_path.get() + "/" + ".DS_Store")
-                time.sleep(1)
+                time.sleep(0.8)
                 self.data = os.listdir(self.training_path.get())
+            if os.path.exists(self.training_path.get() + "/Insert your training data in this directory.txt"):
+                os.remove(self.training_path.get() + "/Insert your training data in this directory.txt")
+                time.sleep(0.8)
             self.data = self.sorted_nicely(self.data)
             table = TableCanvas(self.frame, rows=0, cols=0, cellwidth=250)
             table.createTableFrame()
@@ -719,10 +724,10 @@ class GUI():
         self.neurons_in_hiddenlayer = []
         self.activationfunction_in_hiddenlayer = []
 
-        # Initialize GUI with a 800x500 self.window
+        # Initialize GUI with a 800xself.height self.window
         self.window = Tk()
 
-        self.window.geometry('800x500')
+        self.window.geometry('800x'+self.height)
         self.window.title("Automated Image Classifier")
 
         # Hide tabs from user
