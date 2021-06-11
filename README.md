@@ -165,7 +165,7 @@ Depending on your installation you might want to choose the execution mode yours
 - \[2]: GPU for training and CPU for predicting = Enables memory growth for GPU which should eliminate most errors with the GPU version of TF. CPU is used for predicting images
 - \[3]: GPU for training and predicting = Same as option \[2] but also uses GPU for predicting. (**Note:** Predicting needs very little performance and is pretty fast most of the time, but the initialization of CUDA takes a few seconds.
   That is why option \[2] is the better execution mode in most situations.)
-- \[4]: Force CPU for training and predicting = If you have any problems whatsoever with you GPU, use this mode.
+- \[4]: Force CPU for training and predicting = If you have any problems whatsoever with your GPU, use this mode.
 
 **GUI version:** You can select your preferred option via a dropdown menu.
 
