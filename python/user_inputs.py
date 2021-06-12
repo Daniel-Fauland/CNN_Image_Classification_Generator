@@ -177,7 +177,6 @@ class User_inputs():
               "[4]: Force CPU for training and predicting (CPU will be used for training the model even if you have a GPU available)")
         settings["mode"] = input("Choose execution mode. Type either '1', '2', '3', or '4' (default = '1'): ")
 
-        print(settings)
         print("\n[1]: Start training\n[2]: Exit program")
         inp = input("Type either '1' or '2' (default = '1'): ")
         if inp == "2":

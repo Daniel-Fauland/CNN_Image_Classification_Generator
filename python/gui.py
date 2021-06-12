@@ -96,12 +96,25 @@ class GUI():
             if os.path.exists(self.training_path.get() + "/Insert your training data in this directory.txt"):
                 os.remove(self.training_path.get() + "/Insert your training data in this directory.txt")
                 time.sleep(0.8)
+                self.data = os.listdir(self.training_path.get())
             self.data = self.sorted_nicely(self.data)
+
             table = TableCanvas(self.frame, rows=0, cols=0, cellwidth=250)
             table.createTableFrame()
             dictionary = {}
-            for n, i in enumerate(self.data):
-                dictionary[str(n)] = {'Folder_Name': i, 'Label': i}
+            labels_dir = os.listdir(self.labels_path.get())
+            if "labels_generated.csv" in labels_dir:  # Check if there already exists a labels file
+                label_df = pd.read_csv(self.labels_path.get() + "/labels_generated.csv")
+                labels = label_df['label'].tolist()
+                if len(labels) == len(self.data):  # Check if num(labels) = num(folders)
+                    for n, i in enumerate(self.data):
+                        dictionary[str(n)] = {'Folder_Name': i, 'Label': labels[n]}
+                else:  # Labels = Folder_Names if num(labels) does not match num(folders)
+                    for n, i in enumerate(self.data):
+                        dictionary[str(n)] = {'Folder_Name': i, 'Label': i}
+            else:  # Labels = Folder_Names if there is no labels file
+                for n, i in enumerate(self.data):
+                    dictionary[str(n)] = {'Folder_Name': i, 'Label': i}
             self.model = table.model
             self.model.importDict(dictionary)
             table.redraw()

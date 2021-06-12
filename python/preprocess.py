@@ -132,17 +132,17 @@ class Preprocess():
             os.remove(self.checkpoint_dir + "/your model will be saved in this directory.txt")
             time.sleep(0.5)
 
-        if settings["model_save"] == "2" or settings["model_save"] == "3":
+        if settings["model_save"] == "2" or settings["model_save"] == "3":  # Delete existing model files
             data = os.listdir(self.checkpoint_dir)
             data = sorted_nicely(data)
-            if settings["model_save"] == "2":
+            if settings["model_save"] == "2":  # Delete oldest model file
                 if len(data) > 0:
                     if os.path.isfile(self.checkpoint_dir + "/" + data[0]):
                         os.remove(self.checkpoint_dir + "/" + data[0])
                     else:
                         shutil.rmtree(self.checkpoint_dir + "/" + data[0])
                     time.sleep(1)
-            if settings["model_save"] == "3":
+            if settings["model_save"] == "3":  # Delete all existing model files
                 if len(data) > 0:
                     for i in data:
                         if os.path.isfile(self.checkpoint_dir + "/" + i):
@@ -156,7 +156,7 @@ class Preprocess():
         else:
             validation = int(settings["validation"]) / 100
 
-        if settings["dim"] == "":
+        if settings["dim"] == "":  # If input shape is empty: Resize all images to the shape of the first training image
             data = os.listdir(self.path_data)
             for folder in data:
                 f = os.listdir(self.path_data + "/" + folder)

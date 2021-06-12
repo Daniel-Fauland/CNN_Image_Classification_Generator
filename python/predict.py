@@ -31,8 +31,8 @@ class Predict():
         if os.path.exists(self.path_data + "/insert your own images here that you want to predict.txt"):
             os.remove(self.path_data + "/insert your own images here that you want to predict.txt")
             time.sleep(0.5)
-        dimx = shape[1]
-        dimy = shape[2]
+        dimx = shape[1]  # Get width of expected input shape
+        dimy = shape[2]  # Get height of expected input shape
         images = []
         src_images = []
         data = os.listdir(self.path_data)
@@ -43,11 +43,11 @@ class Predict():
         data = sorted_nicely(data)
         for file in data:
             try:
-                image = cv2.imread(self.path_data + "/" + file)
-                src_img = plt.imread(self.path_data + "/" + file)
-                image = cv2.resize(image, (dimx, dimy))
-                images.append(image)
-                src_images.append(src_img)
+                image = cv2.imread(self.path_data + "/" + file)  # Read the image in open-cv
+                src_img = plt.imread(self.path_data + "/" + file)  # Read the same image in Matplotlib
+                image = cv2.resize(image, (dimx, dimy))  # Resize the open-cv image
+                images.append(image)  # Append the resized image to a list
+                src_images.append(src_img)  # Append the source image to a list
             except:
                 print("=" * 100)
                 print("ERROR! OpenCV could not open the file '{}'\n"
@@ -70,8 +70,6 @@ class Predict():
                 pass
             else:
                 img = cv2.cvtColor(np.float32(img), cv2.COLOR_BGR2GRAY)  # Grayscale image
-
-            # img = cv2.equalizeHist(np.uint8(img))                  # Optimize Lightning
 
             if img_normalize == "2":
                 pass
@@ -101,28 +99,28 @@ class Predict():
     def predict_data(self, src_images, predictions, data, file):
         if self.gui == 0:
             labels_file_name = self.df["csv_name"][0]
-            df_labels = pd.read_csv("labels/" + labels_file_name)
+            df_labels = pd.read_csv("labels/" + labels_file_name)  # Read the labels file
         else:
-            labels_file_name = self.labels
-            df_labels = pd.read_csv(labels_file_name + "/labels_generated.csv")
+            labels_file_path = self.labels
+            df_labels = pd.read_csv(labels_file_path + "/labels_generated.csv")  # Read the labels file
 
-        label_names = df_labels[self.df["csv_column"][0]].tolist()
+        label_names = df_labels[self.df["csv_column"][0]].tolist()  # Extract the labels and append it to a list
         prediction_list = []
         label_names_str = []
         for label in label_names:
-            label_names_str.append(str(label))
+            label_names_str.append(str(label))  # Convert all labels to strings (Matplotlib displays only strings not numbers)
 
-        for i in range(len(src_images)):
+        for i in range(len(src_images)):  # Iterate over all images
             image = src_images[i]
-            plt.imshow(image)
-            plt.title("Prediction: " + label_names_str[np.argmax(predictions[i])])
-            prediction_list.append(label_names_str[np.argmax(predictions[i])])
+            plt.imshow(image)  # Show the source image
+            plt.title("Prediction: " + label_names_str[np.argmax(predictions[i])])  # Insert the most likely prediction
+            prediction_list.append(label_names_str[np.argmax(predictions[i])])  # Append the most likely prediction to a list
             plt.show()
 
-        df = {"File": data, "Prediction": prediction_list}
+        df = {"File": data, "Prediction": prediction_list}  # Create a dictionary showing every file and the corresponding prediction
         df = pd.DataFrame(df)
         print("\nPredictions for model file:", file)
-        print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))
+        print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))  # Print the dictionary as a nice table
 
 
     # ============================================================
@@ -145,14 +143,13 @@ class Predict():
         elif str(self.df["mode"][0]) == "2" or str(self.df["mode"][0]) == "4":
             os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # force CPU Usage, instead of GPU
 
-        # --- load the model using the load_model function from keras ---
         data = os.listdir(self.checkpoint_dir)
         if ".DS_Store" in data:  # Only necessary for MacOS
             os.remove(self.checkpoint_dir + "/" + ".DS_Store")
             time.sleep(1)
             data = os.listdir(self.checkpoint_dir)
 
-        if len(data) > 1:
+        if len(data) > 1:  # Check if multiple models exist
             data = sorted_nicely(data)
             for i in range(len(data)):
                 print("[{}]: '{}'".format(i + 1, data[i]))
@@ -162,13 +159,13 @@ class Predict():
                 file = data[len(data) - 1]
             else:
                 file = data[int(inp) - 1]
-            model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)
+            model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
         else:
             file = data[0]
-            model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)
+            model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
 
-        config = model.get_config()
-        shape = config["layers"][0]["config"]["batch_input_shape"]
+        config = model.get_config()  # Get the config from the model
+        shape = config["layers"][0]["config"]["batch_input_shape"]  # Get the expected input shape
         images, src_images, data = self.get_images(shape)
         images = self.preprocess_data(images, shape)
         predictions = model.predict(images)

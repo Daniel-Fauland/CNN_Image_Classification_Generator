@@ -13,7 +13,7 @@ class Model():
         self.checkpoint_dir = checkpoints
 
         if mode == "2" or mode == "3":
-            # --- prevent TF from using more VRAM than the GPU actually has ---
+            # --- Prevent TF from using more VRAM than the GPU actually has ---
             gpus = tf.config.experimental.list_physical_devices('GPU')
             if gpus:
                 try:
@@ -22,7 +22,7 @@ class Model():
                 except RuntimeError as e:
                     print(e)
         elif mode == "4":
-            os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # force CPU Usage, instead of GPU
+            os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # Force CPU Usage, instead of GPU
 
 
     # ============================================================
@@ -30,21 +30,21 @@ class Model():
               dropout_2, num_hidden_l, num_hidden_n, hidden_activation, x_train, x_val, y_train, y_val,
               epochs, batch_size, predefined):
         # ---Model configuration---
-        model = models.Sequential()
-        model.add(layers.Conv2D(num_n[0], strides_n[0], activation=activation[0], input_shape=(dimx, dimy, channels)))
+        model = models.Sequential()  # Use a sequential model
+        model.add(layers.Conv2D(num_n[0], strides_n[0], activation=activation[0], input_shape=(dimx, dimy, channels)))  # First conv2d layer
         if pool_layers[0] == "y":
-            model.add(layers.MaxPooling2D(m_pool[0]))
+            model.add(layers.MaxPooling2D(m_pool[0]))  # First max pooling layer
             pool = 0
         else:
             pool = -1
 
         try:
-            for i in range(num_l-1):
-                model.add(layers.Conv2D(num_n[i+1], strides_n[i+1], activation=activation[i+1]))
+            for i in range(num_l-1):  # Iterate over each conv2d layer
+                model.add(layers.Conv2D(num_n[i+1], strides_n[i+1], activation=activation[i+1]))  # Add conv2d layer
                 if pool_layers[i+1] == "y":
                     pool += 1
                     try:
-                        model.add(layers.MaxPooling2D(m_pool[pool]))
+                        model.add(layers.MaxPooling2D(m_pool[pool]))  # Add MaxPooling layer
                     except:
                         pass
 
@@ -62,13 +62,13 @@ class Model():
             # ---End of model configuration---
 
             if predefined != "y":
-                with open('python/model_summary.txt', 'w') as ms:  # save model summary in txt file
+                with open('python/model_summary.txt', 'w') as ms:  # Save model summary in txt file
                     model.summary(print_fn=lambda x: ms.write(x + '\n'))
             else:
-                with open('python/predefined_model_summary.txt', 'w') as ms:  # save predefined model summary in txt file
+                with open('python/predefined_model_summary.txt', 'w') as ms:  # Save predefined model summary in txt file
                     model.summary(print_fn=lambda x: ms.write(x + '\n'))
 
-            model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy'])
+            model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy'])  # Build the model
         except:
             print("="*100)
             print("ERROR! You used to many 'Conv2D' and/or 'MaxPooling' layer which led to a negative output shape.\nTry to reduce the amount "
@@ -76,7 +76,7 @@ class Model():
             print("="*100)
             sys.exit(1)
 
-        history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, validation_data=(x_val, y_val))
+        history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, validation_data=(x_val, y_val))  # Train the model
 
         now = datetime.now()
         timestamp = now.strftime("%d_%m_%Y__%H_%M_%S")
@@ -84,7 +84,7 @@ class Model():
             print("\nYou can view the architecture of your latest model in 'python/model_summary.txt'")
         else:
             print("\nYou can view the architecture of your latest model in 'python/predefined_model_summary.txt'")
-        model.save(self.checkpoint_dir + "/model_" + timestamp + ".h5")  # save model with current timestamp
+        model.save(self.checkpoint_dir + "/model_" + timestamp + ".h5")  # Save model with current timestamp
         print("Your model has been saved in the directory '{}'".format(self.checkpoint_dir))
         return history, model, x_val, y_val
 
@@ -99,17 +99,17 @@ class Model():
         end_time = time.time()
         duration = end_time - s_time
         if duration <= 60:
-            duration = "The total runtime was {} seconds".format(round(duration, 2))  # get runtime in seconds
+            duration = "The total runtime was {} seconds".format(round(duration, 2))  # Get runtime in seconds if < 60
         else:
-            duration = "The total runtime was {} minutes".format(round(duration / 60, 2))  # get runtime in minutes
+            duration = "The total runtime was {} minutes".format(round(duration / 60, 2))  # Get runtime in minutes
 
         print("\n========================================================================")
-        print("The highest acc ({}%) on the validation data was achieved in epoch {}".format(acc, epoch_acc))  # print highest val acc
-        print("The lowest loss ({}) on the validation data was achieved in epoch {}".format(loss, epoch_loss))  # print lowest val loss
+        print("The highest acc ({}%) on the validation data was achieved in epoch {}".format(acc, epoch_acc))  # Print highest val acc
+        print("The lowest loss ({}) on the validation data was achieved in epoch {}".format(loss, epoch_loss))  # Print lowest val loss
         print(duration)
         print("========================================================================")
 
-        # --- plot a graph showing the accuracy over the epochs ---
+        # --- Plot a graph showing the accuracy over the epochs ---
         plt.plot(history.history['accuracy'], label='accuracy')
         plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
         plt.xlabel('Epochs')
@@ -118,7 +118,7 @@ class Model():
         plt.legend(loc='lower right')
         plt.show()
 
-        # --- plot a graph showing the loss over the epochs ---
+        # --- Plot a graph showing the loss over the epochs ---
         plt.plot(history.history['loss'], label='loss')
         plt.plot(history.history['val_loss'], label='val_loss')
         plt.xlabel('Epochs')
@@ -131,7 +131,7 @@ class Model():
     # ============================================================
     def train_model(self, x_train, x_val, y_train, y_val, dimx, dimy, dim_out, settings):
         s_time = settings["s_time"]
-        # --- process all necessary user inputs for the model ---
+        # --- Process all necessary user inputs for the model ---
         if settings["epochs"] == "":
             epochs = 10
         else:
@@ -147,7 +147,7 @@ class Model():
         else:
             channels = 1
 
-        # Model layers options
+        # --- Model layers options ---
         num_n = []
         strides_n = []
         m_pool = []

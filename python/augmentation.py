@@ -11,6 +11,7 @@ import numpy as np
 class Augmentation():
     def __init__(self, path="training_data"):
         self.path_data = path
+        # --- prevent TF from using more VRAM than the GPU actually has ---
         gpus = tf.config.experimental.list_physical_devices('GPU')
         if gpus:
             try:
@@ -51,7 +52,7 @@ class Augmentation():
                     time.sleep(1)
                     f = os.listdir(self.path_data + "/" + folder)
             count_src += len(f)
-            for file in f:  # Iterate over each file in each folder
+            for file in f:  # Iterate over each file in each folder and augment it based on the chosen options
                 try:
                     image = cv2.imread(self.path_data + "/" + folder + "/" + file)  # read file with open_cv
                     if "2" in augmentation_inp:
@@ -91,7 +92,7 @@ class Augmentation():
                         cv2.imwrite(self.path_data + "/" + folder + "/" + "augmented_random_contrast_" + file, np.float32(aug_img_random_contrast))
                         count_img += 1
                 except:
-                    error.append(folder + "/" + file)
+                    error.append(folder + "/" + file)  # Append every file to a list that could not be read for some reason
             count += 1
             sys.stdout.write('\r' + "Augmented folder {}/{}.".format(count, len(data)))
         sys.stdout.write('\r' + "Successfully created {} augmented images.".format(count_img))
@@ -138,7 +139,7 @@ class Augmentation():
             count_src += len(f)
             for file in f:  # Iterate over each file in each folder
                 image = self.path_data + "/" + folder + "/" + file
-                if "augmented" in image:
+                if "augmented" in image:  # Delete every file that has "augmented" in its file name
                     os.remove(image)
                     count_img += 1
             count += 1
@@ -149,7 +150,7 @@ class Augmentation():
         else:
             sys.stdout.write('\r' + "No augmented images have been found in this dataset.")
 
-        if gui_mode == 0:
+        if gui_mode == 0:  # Get user input after successful deletion of all augmented images in the command line version
             print("\n[1]: Continue training without augmented images\n[2]: Create new augmentations and continue training\n[3]: Exit")
             inp = input("Type either '1', '2' or '3' (default = '3'): ")
             if inp == "1":
