@@ -1,7 +1,8 @@
 # Automated-CNN-Image-Classifier-TF
-Fully automated TF2 CNN image classifier to automatically train and predict images given a dataset of your choice
+Fully automated TF2 CNN image classifier to automatically train and predict images given a dataset of your choice.<br />
+Showcase:
 
-
+[![Automated CNN Image Classifier showcase](https://i.imgur.com/2izbAL8.jpeg)](https://www.youtube.com/watch?v=4HIXJPK7UqY "Automated CNN Image Classifier showcase")
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)  
