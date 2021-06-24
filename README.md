@@ -104,10 +104,7 @@ You can also open this project in an IDE (e.g. PyCharm):
 ## Datasets
 Here is a list of a few datasets to experiment with:
 - [Weather classification](https://drive.google.com/file/d/1TAMrZaYPRaoSHf9NPvk-YQ3oQJ2mlCgd/view?usp=sharing) (~1100 images, ~95 MB; small dataset)
-- [Cats & Dogs classification](https://drive.google.com/file/d/1bHUM6-H-IyH2Cai3rh7FEh5QgUjmnvgw/view?usp=sharing) (~10.000 images, ~236 MB; medium dataset; GPU recommended)  
-- [Traffic Signs classification](https://drive.google.com/file/d/1lp8mtwLmIWJW1iLksBXZU_GeUVBdxLdT/view?usp=sharing) (~35.000 images, ~135 MB; medium dataset; GPU recommended)
-- [Intel dataset](https://drive.google.com/file/d/18pMgnGcDTEINRGMhDgiguXCNjp1ronS7/view?usp=sharing): Different objects and landmarks classification (~14.000 images, ~203 MB; medium dataset; GPU recommended)
-- [Food, People and Buildings](https://drive.google.com/file/d/166RKx5AMoj6URQiKUSAtjactS41MvmTF/view?usp=sharing) (~16.000 images, ~2,4 GB; large dataset; GPU highly recommended)
+- [Indoor scene classification](https://drive.google.com/file/d/166RKx5AMoj6URQiKUSAtjactS41MvmTF/view?usp=sharing) (~16.000 images, ~2,4 GB; large dataset; GPU highly recommended)
 - More datasets can be found on [kaggle](https://www.kaggle.com/datasets?search=image+classification)
 
 
