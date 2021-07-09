@@ -1252,46 +1252,28 @@ class GUI():
 
         self.canvas = Canvas(wrapper)
         self.canvas.pack(side=LEFT, fill="both", expand="yes")
-
         yscrollbar = Scrollbar(wrapper, orient="vertical", command=self.canvas.yview)
         yscrollbar.pack(side=RIGHT, fill="y")
-
         self.canvas.configure(yscrollcommand=yscrollbar.set)
-
         self.canvas.bind('<Configure>', lambda e: self.canvas.configure(scrollregion=self.canvas.bbox('all')))
-
         self.frame5 = Frame(self.canvas)
         self.frame5.bind("<Configure>", self.reset_scrollregion)
         self.frame5.bind_all("<MouseWheel>", self.on_mousewheel)  # Enable scrolling with mouse wheel
-
         self.canvas.create_window((0, 0), window=self.frame5, anchor="nw")
-
         wrapper.pack(fill="both", expand="yes")
 
         lb = Label(self.frame5, text="Choose number of neurons for first 'Conv2D' layer: ")
-
         lb.grid(column=0, row=0)
-
         self.txt1 = Entry(self.frame5, textvariable=standardvalue_conv2d, width=10)
-
         self.txt1.grid(column=1, row=0)
-
         lb = Label(self.frame5, text="Choose strides for first 'Conv2D' layer: ")
-
         lb.grid(column=0, row=1)
-
         self.txt2 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_one, width=10)
-
         self.txt2.grid(column=1, row=1)
-
         self.txt3 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_two, width=10)
-
         self.txt3.grid(column=2, row=1)
-
         lb = Label(self.frame5, text="Choose activation function for first 'Conv2D' layer: ")
-
         lb.grid(column=0, row=2)
-
         main_menu3 = ttk.OptionMenu(self.frame5, clicked2, "Relu", "Relu", "Sigmoid", "Softmax", "Softplus", "Softsign", "Tanh", "Selu", "Elu", "Exponential",
                                     command=self.callback_firstconv2d)
         main_menu3.grid(column=1, row=2)
@@ -1305,7 +1287,6 @@ class GUI():
         self.txt4.grid(column=1, row=4)
         self.txt5 = Entry(self.frame5, textvariable=standardvalue_maxpooling_stride_two, state=DISABLED, width=10)
         self.txt5.grid(column=2, row=4)
-
         self.button1 = ttk.Button(self.frame5, text="Use Layer", command=lambda: self.change_entry_state(self.button1, [self.txt4, self.txt5]))
         self.button1.grid(column=3, row=4)
 
@@ -1313,33 +1294,20 @@ class GUI():
         separator.grid(column=0, row=5, sticky="ew", pady=(15, 15))
 
         lb = Label(self.frame5, text="Choose number of neurons for second 'Conv2D' layer: ")
-
         lb.grid(column=0, row=6)
-
-        self.txt6 = Entry(self.frame5, textvariable=standardvalue_conv2d, state=DISABLED, width=10)
-
+        self.txt6 = Entry(self.frame5, textvariable=standardvalue_conv2d2, state=DISABLED, width=10)
         self.txt6.grid(column=1, row=6)
-
         lb = Label(self.frame5, text="Choose strides for second 'Conv2D' layer: ")
-
         lb.grid(column=0, row=7)
-
         self.txt7 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_one2, state=DISABLED, width=10)
-
         self.txt7.grid(column=1, row=7)
-
         self.txt8 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_two2, state=DISABLED, width=10)
-
         self.txt8.grid(column=2, row=7)
-
         lb = Label(self.frame5, text="Choose activation function for second 'Conv2D' layer: ")
-
         lb.grid(column=0, row=8)
-
         main_menu4 = ttk.OptionMenu(self.frame5, clicked3, "Relu", "Relu", "Sigmoid", "Softmax", "Softplus", "Softsign", "Tanh", "Selu", "Elu", "Exponential",
                                     command=self.callback_secondconv2d)
         main_menu4.grid(column=1, row=8)
-
         self.button2 = ttk.Button(self.frame5, text="Use Layer", command=lambda: self.change_entry_state(self.button2, [self.txt6, self.txt7, self.txt8, self.button3, self.button4]))
         self.button2.grid(column=3, row=7)
 
@@ -1352,7 +1320,6 @@ class GUI():
         self.txt9.grid(column=1, row=10)
         self.txt10 = Entry(self.frame5, textvariable=standardvalue_maxpooling_stride_two2, state=DISABLED, width=10)
         self.txt10.grid(column=2, row=10)
-
         self.button3 = ttk.Button(self.frame5, text="Use Layer", state=DISABLED, command=lambda: self.change_entry_state(self.button3, [self.txt9, self.txt10]))
         self.button3.grid(column=3, row=10)
 
@@ -1360,33 +1327,20 @@ class GUI():
         separator.grid(column=0, row=11, sticky="ew", pady=(15, 15))
 
         lb = Label(self.frame5, text="Choose number of neurons for third 'Conv2D' layer: ")
-
         lb.grid(column=0, row=12)
-
         self.txt11 = Entry(self.frame5, textvariable=standardvalue_conv2d3, state=DISABLED, width=10)
-
         self.txt11.grid(column=1, row=12)
-
         lb = Label(self.frame5, text="Choose strides for third 'Conv2D' layer: ")
-
         lb.grid(column=0, row=13)
-
         self.txt12 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_one3, state=DISABLED, width=10)
-
         self.txt12.grid(column=1, row=13)
-
         self.txt13 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_two3, state=DISABLED, width=10)
-
         self.txt13.grid(column=2, row=13)
-
         lb = Label(self.frame5, text="Choose activation function for third 'Conv2D' layer: ")
-
         lb.grid(column=0, row=14)
-
         main_menu5 = ttk.OptionMenu(self.frame5, clicked4, "Relu", "Relu", "Sigmoid", "Softmax", "Softplus", "Softsign", "Tanh", "Selu", "Elu", "Exponential",
                                     command=self.callback_thirdconv2d)
         main_menu5.grid(column=1, row=14)
-
         self.button4 = ttk.Button(self.frame5, text="Use Layer", state=DISABLED, command=lambda: self.change_entry_state(self.button4, [self.txt11, self.txt12, self.txt13, self.button5, self.button6]))
         self.button4.grid(column=3, row=13)
 
@@ -1399,7 +1353,6 @@ class GUI():
         self.txt14.grid(column=1, row=16)
         self.txt15 = Entry(self.frame5, textvariable=standardvalue_maxpooling_stride_two3, state=DISABLED, width=10)
         self.txt15.grid(column=2, row=16)
-
         self.button5 = ttk.Button(self.frame5, text="Use Layer", state=DISABLED, command=lambda: self.change_entry_state(self.button5, [self.txt14, self.txt15]))
         self.button5.grid(column=3, row=16)
 
@@ -1407,30 +1360,20 @@ class GUI():
         separator.grid(column=0, row=18, sticky="ew", pady=(15, 15))
 
         lb = Label(self.frame5, text="Choose number of neurons for fourth 'Conv2D' layer: ")
-
         lb.grid(column=0, row=19)
-
         self.txt16 = Entry(self.frame5, textvariable=standardvalue_conv2d4, state=DISABLED, width=10)
-
         self.txt16.grid(column=1, row=19)
-
         lb = Label(self.frame5, text="Choose strides for fourth 'Conv2D' layer: ")
-
         lb.grid(column=0, row=20)
-
         self.txt17 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_one4, state=DISABLED, width=10)
         self.txt17.grid(column=1, row=20)
         self.txt18 = Entry(self.frame5, textvariable=standardvalue_conv2d_stride_two4, state=DISABLED, width=10)
         self.txt18.grid(column=2, row=20)
-
         lb = Label(self.frame5, text="Choose activation function for fourth 'Conv2D' layer: ")
-
         lb.grid(column=0, row=21)
-
         main_menu6 = ttk.OptionMenu(self.frame5, clicked5, "Relu", "Relu", "Sigmoid", "Softmax", "Softplus", "Softsign", "Tanh", "Selu", "Elu", "Exponential",
                                     command=self.callback_fourthconv2d)
         main_menu6.grid(column=1, row=21)
-
         self.button6 = ttk.Button(self.frame5, text="Use Layer", state=DISABLED, command=lambda: self.change_entry_state(self.button6, [self.txt16, self.txt17, self.txt18, self.button7]))
         self.button6.grid(column=3, row=20)
 
@@ -1439,12 +1382,10 @@ class GUI():
 
         lb = Label(self.frame5, text="Choose pooling size for the fourth 'MaxPooling2D' layer: ")
         lb.grid(column=0, row=23)
-
         self.txt19 = Entry(self.frame5, textvariable=standardvalue_maxpooling_stride_one4, state=DISABLED, width=10)
         self.txt19.grid(column=1, row=23)
         self.txt20 = Entry(self.frame5, textvariable=standardvalue_maxpooling_stride_two4, state=DISABLED, width=10)
         self.txt20.grid(column=2, row=23)
-
         self.button7 = ttk.Button(self.frame5, text="Use Layer", state=DISABLED, command=lambda: self.change_entry_state(self.button7, [self.txt19, self.txt20]))
         self.button7.grid(column=3, row=23)
 
@@ -1452,24 +1393,17 @@ class GUI():
         separator.grid(column=0, row=24, sticky="ew", pady=(15, 15))
 
         lb = Label(self.frame5, text="Choose dropout ratio in %: ")
-
         lb.grid(column=0, row=25, pady=(15, 0))
-
         self.txt21 = Entry(self.frame5, textvariable=self.standardvalue_dropoutratio1, state=DISABLED, width=10)
         self.txt21.grid(column=1, row=25, pady=(15, 0))
-
         lb = Label(self.frame5, text="")
-
         lb.grid(column=2, row=25, pady=(15, 0))
-
         button8 = ttk.Button(self.frame5, text="Use Layer", command=lambda: self.change_entry_state(button8, [self.txt21]))
         button8.grid(column=3, row=25)
 
         separator = ttk.Separator(self.frame5, orient='horizontal')
         separator.grid(column=0, row=26, sticky="ew", pady=(15, 15))
-
         lb23 = Label(self.frame5, text="Choose the amount of hidden layers: ")
-
         lb23.grid(column=0, row=27)
 
         self.txt22 = Entry(self.frame5, textvariable=standardvalue_hiddenlayers, state=DISABLED, width=10)
@@ -1482,26 +1416,13 @@ class GUI():
         button9 = ttk.Button(self.frame5, text="Use Layer", command=lambda: self.change_entry_state(button9, [self.txt22, self.button13]))
         button9.grid(column=3, row=27)
 
-
         # *********************** TAB 8 *****************
         # Allows user to train a model with the selected configurations
-        # self.frame7 = Frame(tab8)  # Sets standard values for activation functions in model configuration
         self.firstconv2d = "relu"
         self.secondconv2d = "relu"
         self.thirdconv2d = "relu"
         self.fourthconv2d = "relu"
         self.settings["model_save"] = "1"
-        # self.frame7.pack()
-
-        # lb = Label(self.frame7, text="Choose execution mode: ")
-        # lb.grid(column=0, row=0)
-        #
-        # main_menu7 = ttk.OptionMenu(self.frame7, clicked6, "Automatic", "Automatic",
-        #                             "Use GPU for training and CPU for predicting with memory growth enabled for the GPU",
-        #                             "Use GPU for training and predicting", "Force CPU for training and predicting", command=self.callback_excution_options)
-        # main_menu7.grid(column=1, row=0)
-        # self.button30 = ttk.Button(self.frame7, text="Start Training", command=lambda: self.updatesettings())
-        # self.button30.grid(column=0, row=1, pady=(15, 0))
 
         lb = Label(tab8, text="Choose execution mode: ")
         lb.pack(pady=(0, 10))
