@@ -99,7 +99,9 @@ You can also open this project in an IDE (e.g. PyCharm):
 - Go Settings > Project: CNN_Image_Classification_Generator > Python Interpreter
 - Click the dropdown menu and click 'Show all'
 - Select the Conda env 'tf' and click 'Apply'
-- (If it's not listed click the '+' icon > Conda Environment > Existing environment > Interpreter > Choose the environment folder)
+- (If it's not listed click the '+' icon > Conda Environment > Existing environment > Interpreter > Choose the environment folder 
+- default location Windows: C:\Users\User\ .conda\envs\tf
+- default location MacOS: /Users/User/Anaconda3/tf
 
 
 ## Datasets
@@ -114,7 +116,7 @@ Make sure your training data and labels file (if you have one) fulfill the follo
 - You have one folder containing all the images for each category (no sub folders within a category)
 - You do not have a separate folder with validation images
 - The folder and file names contain only the following characters: **'a-z A-Z 0-9 _ - + . \*'**
-- The categories in your labels file appear in the same order as the alphabetically orderd folders in 'training_data' --> The category name for the third folder is in the third line in your labels file and the category name for the fith folder is in the fith line in your labels file, etc.
+- The categories in your labels file appear in the same order as the alphabetically ordered folders in 'training_data' --> The category name for the third folder is in the third line in your labels file, and the category name for the fifth folder is in the fifth line in your labels file, etc.
    
 Run the [**start_gui.py**](start_gui.py) (GUI verison) or [**train_model.py**](train_model.py) (command line version) file. <br />
 You can select a background image for the gui by changing the value of the variable img in [**start_gui.py**](start_gui.py) <br />
@@ -153,7 +155,7 @@ In this case the label name for the folder will be the same as the folder name i
 ### Preprocessing options
 The preprocessing transforms the data in a way that TF accepts the data as a valid input. 
 1. Resize all images to a specific shape: All images need to be the same shape before they can be passed to the model.
-Type e.g. '64 32' to  resize all images to 64px width and 32px height. Alternatively you can just press to enter to the resize all images to the shape
+Type e.g. '64 32' to  resize all images to 64px width and 32px height. Alternatively you can just press enter to the resize all images to the shape
    of the first image found.
    
 2. [Grayscale](https://docs.opencv.org/3.4/de/d25/imgproc_color_conversions.html) images: You can choose if you want to transform all images to black and white by typing '1' or pressing enter. 
@@ -210,12 +212,14 @@ Depending on your installation you might want to choose the execution mode yours
 **GUI version:** You can select your preferred option via a dropdown menu.
 
 ## Predict data
+**Preview images:** After choosing your directory (GUI Version only) and model (if you have more than 1) you can choose if you want to preview the images or just show the result of the predictions.
+
 **Command line version:** Put the images that you want to predict inside the *predict_data* folder and run [**predict_data.py**](predict_data.py).
 
 **GUI version:** Select the path to the images you want to predict as well as the checkpoint path and labels path.
 
 **Make sure your prediction data fulfills the following conditions:**
-- You put only images insides the *predict_data* directory / your desired directory if you use the GUI version.
+- The *predict_data* directory / your desired directory (if you use the GUI version) contains only images and no other files.
 - All images are either **'.png'** or **'.jpg'** or **'.jpeg'**
 - The file names contain only the following characters: **'a-z A-Z 0-9 _ - + . \*'**
 - There are no subfolders within this directory.
