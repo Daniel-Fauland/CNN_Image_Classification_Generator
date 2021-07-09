@@ -20,7 +20,7 @@ Showcase:
 
 ## Introduction
 The goal of this project is to provide an easy way to train and predict a CNN in TF. 
-It is meant to be used by beginners who just started their data science journey and for people who quickly want to train a decent performing image classifier with minimal effort. 
+It is meant to be used by beginners who just started their data science journey and for people who quickly want to train a decent performing image classifier with minimal effort and without having to code a single line. 
 Some key features are:
 - GUI
 - Augmentation of images of your choice via a few inputs
@@ -28,11 +28,15 @@ Some key features are:
 - Build the model via a few inputs
 - Choose preferred execution mode
 
+**How it works:** All the available options for the CNN that can be selected are hard coded. 
+To pass the selected information on from the GUI or the command line the selected options are collectively stored in a dictionary. 
+The dictionary is then solely processed by if and else statements to create the final model with all the selected parameters.
+
 ## Prerequisites
 Make sure you have [Anaconda](https://docs.anaconda.com/anaconda/install/) installed.
 - Windows:
     - Install the windows version of Anaconda [here](https://docs.anaconda.com/anaconda/install/windows/)
-    - Make sure you add conda to PATH (or you can't use conda commands from CMD)
+    - Make sure you add conda to PATH (or you can't use conda commands from CMD. In this case you have to use "Anaconda Prompt" instead)
 - Mac: Install the MacOS version of Anaconda [here](https://docs.anaconda.com/anaconda/install/mac-os/)
 - Linux: Install the Linux version of Anaconda [here](https://docs.anaconda.com/anaconda/install/linux/)
     
@@ -47,7 +51,7 @@ git clone https://github.com/Daniel-Fauland/CNN_Image_Classification_Generator.g
 ``` shell
 cd CNN_Image_Classification_Generator
 ```
-**Windows:**
+**Windows (Watch the Windows installation [here](https://www.youtube.com/watch?v=JCtRAWr90t0)):**
 
 4. Install [**requirements_windows.yml**](requirements_windows.yml). This will created a new virtual environment that is separated from your existing python installation and therefore will not interfere with any of your other packages:
     ``` shell
@@ -66,7 +70,7 @@ cd CNN_Image_Classification_Generator
     - Make sure you download the specific version given above and not an older/newer version because there is a high chance that it will not work
 
    
-**MacOS:**
+**MacOS (Watch the MacOS installation [here](https://youtu.be/2Ke4rgg-nVs)):**
 
 4. Create a new virtual environment:
     ``` shell
@@ -100,8 +104,8 @@ You can also open this project in an IDE (e.g. PyCharm):
 - Click the dropdown menu and click 'Show all'
 - Select the Conda env 'tf' and click 'Apply'
 - (If it's not listed click the '+' icon > Conda Environment > Existing environment > Interpreter > Choose the environment folder 
-- default location Windows: C:\Users\User\ .conda\envs\tf
-- default location MacOS: /Users/User/Anaconda3/tf
+- default location Windows: ``C:\Users\<User>\.conda\envs\tf``
+- default location MacOS: ``/Users/<User>/Anaconda3/tf``
 
 
 ## Datasets
