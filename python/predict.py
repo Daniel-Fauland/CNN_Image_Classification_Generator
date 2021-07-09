@@ -97,6 +97,7 @@ class Predict():
 
     # ============================================================
     def predict_data(self, src_images, predictions, data, file):
+        inp = input("Show preview images y/n (default = 'y'): ")  # Ask the user if preview images should be shown
         if self.gui == 0:
             labels_file_name = self.df["csv_name"][0]
             df_labels = pd.read_csv("labels/" + labels_file_name)  # Read the labels file
@@ -110,12 +111,16 @@ class Predict():
         for label in label_names:
             label_names_str.append(str(label))  # Convert all labels to strings (Matplotlib displays only strings not numbers)
 
-        for i in range(len(src_images)):  # Iterate over all images
-            image = src_images[i]
-            plt.imshow(image)  # Show the source image
-            plt.title("Prediction: " + label_names_str[np.argmax(predictions[i])])  # Insert the most likely prediction
-            prediction_list.append(label_names_str[np.argmax(predictions[i])])  # Append the most likely prediction to a list
-            plt.show()
+        if inp == "n":  # Don't show preview images
+            for i in range(len(src_images)):  # Iterate over all images
+                prediction_list.append(label_names_str[np.argmax(predictions[i])])  # Append the most likely prediction to a list
+        else:  # Show preview images
+            for i in range(len(src_images)):  # Iterate over all images
+                image = src_images[i]
+                plt.imshow(image)  # Show the source image
+                plt.title("Prediction: " + label_names_str[np.argmax(predictions[i])])  # Insert the most likely prediction
+                prediction_list.append(label_names_str[np.argmax(predictions[i])])  # Append the most likely prediction to a list
+                plt.show()
 
         df = {"File": data, "Prediction": prediction_list}  # Create a dictionary showing every file and the corresponding prediction
         df = pd.DataFrame(df)
