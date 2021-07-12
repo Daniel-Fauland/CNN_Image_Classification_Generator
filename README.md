@@ -104,8 +104,8 @@ You can also open this project in an IDE (e.g. PyCharm):
 - Click the dropdown menu and click 'Show all'
 - Select the Conda env 'tf' and click 'Apply'
 - (If it's not listed click the '+' icon > Conda Environment > Existing environment > Interpreter > Choose the environment folder 
-- default location Windows: ``C:\Users\<User>\.conda\envs\tf``
-- default location MacOS: ``/Users/<User>/Anaconda3/tf``
+- Default location Windows: ``C:\Users\<User>\.conda\envs\tf``
+- Default location MacOS: ``/Users/<User>/Anaconda3/tf``
 
 
 ## Datasets
