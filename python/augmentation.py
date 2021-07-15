@@ -148,7 +148,7 @@ class Augmentation():
             sys.stdout.write('\r' + "Successfully deleted all {} augmented images.".format(count_img))
             print("\nDecreased training data from {} images to its original size of {} images.".format(count_src, count_src - count_img))
         else:
-            sys.stdout.write('\r' + "No augmented images have been found in this dataset.")
+            sys.stdout.write('\r' + "No augmented images have been found in this dataset.\n")
 
         if gui_mode == 0:  # Get user input after successful deletion of all augmented images in the command line version
             print("\n[1]: Continue training without augmented images\n[2]: Create new augmentations and continue training\n[3]: Exit")
