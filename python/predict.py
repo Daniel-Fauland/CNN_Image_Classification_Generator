@@ -96,8 +96,11 @@ class Predict():
         return images
 
     # ============================================================
-    def predict_data(self, src_images, predictions, data, file):
-        inp = input("Show preview images y/n (default = 'y'): ")  # Ask the user if preview images should be shown
+    def predict_data(self, src_images, predictions, data, file, preview="y"):
+        if preview == "n":
+            inp = "n"
+        else:
+            inp = input("Show preview images y/n (default = 'y'): ")  # Ask the user if preview images should be shown
         if self.gui == 0:
             labels_file_name = self.df["csv_name"][0]
             df_labels = pd.read_csv("labels/" + labels_file_name)  # Read the labels file
@@ -153,19 +156,36 @@ class Predict():
             os.remove(self.checkpoint_dir + "/" + ".DS_Store")
             time.sleep(1)
             data = os.listdir(self.checkpoint_dir)
+        if os.path.exists(self.checkpoint_dir + "/your model will be saved in this directory.txt"):
+            os.remove(self.checkpoint_dir + "/your model will be saved in this directory.txt")
+            time.sleep(0.5)
+            data = os.listdir(self.checkpoint_dir)
 
         if len(data) > 1:  # Check if multiple models exist
             data = sorted_nicely(data)
             for i in range(len(data)):
                 print("[{}]: '{}'".format(i + 1, data[i]))
+            print("[{}]: Predict all models".format(len(data)+1))
             inp = input("There are multiple files in this directory. (Choose file with number between "
-                        "'1' and '{}'; default = '{}'): ".format(len(data), len(data)))
-            if inp == "":
-                file = data[len(data) - 1]
-            else:
-                file = data[int(inp) - 1]
-            model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
-        else:
+                        "'1' and '{}'; default = '{}'): ".format(len(data)+1, len(data)))
+
+            if inp != str(len(data)+1):  # Predict a single model file
+                if inp == "":  # If input = empty
+                    file = data[len(data) - 1]  # Choose latest model
+                else:
+                    file = data[int(inp) - 1]  # Choose desired model
+                model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
+            else:  # Predict all models
+                for file in data:  # Iterate over each model
+                    model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
+                    config = model.get_config()  # Get the config from the model
+                    shape = config["layers"][0]["config"]["batch_input_shape"]  # Get the expected input shape
+                    images, src_images, data = self.get_images(shape)
+                    images = self.preprocess_data(images, shape)
+                    predictions = model.predict(images)
+                    self.predict_data(src_images, predictions, data, file, "n")
+                sys.exit(1)  # Exit program after all models are predicted
+        else:  # There is only one model file in the directory
             file = data[0]
             model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
 
