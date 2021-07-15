@@ -110,7 +110,6 @@ class Predict():
 
         label_names = df_labels[self.df["csv_column"][0]].tolist()  # Extract the labels and append it to a list
         prediction_list = []
-        probability_list = []
         label_names_str = []
         for label in label_names:
             label_names_str.append(str(label))  # Convert all labels to strings (Matplotlib displays only strings not numbers)
@@ -187,7 +186,6 @@ class Predict():
                     images, src_images, data = self.get_images(shape)
                     images = self.preprocess_data(images, shape)
                     predictions = model.predict(images)
-                    # probas = model.predict_proba(images)
                     self.predict_data(src_images, predictions, data, file, "n", "n", counter)
                     counter += 1
                 self.df2["File"] = data
