@@ -96,8 +96,8 @@ class Predict():
         return images
 
     # ============================================================
-    def predict_data(self, src_images, predictions, data, file, preview="y"):
-        if preview == "n":
+    def predict_data(self, src_images, predictions, data, file, preview="y", show_instance="y", counter=1):
+        if preview == "n":  # No preview images if u predict all models
             inp = "n"
         else:
             inp = input("Show preview images y/n (default = 'y'): ")  # Ask the user if preview images should be shown
@@ -110,6 +110,7 @@ class Predict():
 
         label_names = df_labels[self.df["csv_column"][0]].tolist()  # Extract the labels and append it to a list
         prediction_list = []
+        probability_list = []
         label_names_str = []
         for label in label_names:
             label_names_str.append(str(label))  # Convert all labels to strings (Matplotlib displays only strings not numbers)
@@ -124,12 +125,13 @@ class Predict():
                 plt.title("Prediction: " + label_names_str[np.argmax(predictions[i])])  # Insert the most likely prediction
                 prediction_list.append(label_names_str[np.argmax(predictions[i])])  # Append the most likely prediction to a list
                 plt.show()
-
-        df = {"File": data, "Prediction": prediction_list}  # Create a dictionary showing every file and the corresponding prediction
-        df = pd.DataFrame(df)
-        print("\nPredictions for model file:", file)
-        print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))  # Print the dictionary as a nice table
-
+        if show_instance == "n":
+            self.df2["Prediction " + str(counter)] = prediction_list
+        else:
+            df = {"File": data, "Prediction": prediction_list}  # Create a dictionary showing every file and the corresponding prediction
+            df = pd.DataFrame(df)
+            print("\nPredictions for model file:", file)
+            print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))  # Print the dictionary as a nice table
 
     # ============================================================
     def initialize(self):
@@ -176,6 +178,8 @@ class Predict():
                     file = data[int(inp) - 1]  # Choose desired model
                 model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
             else:  # Predict all models
+                self.df2 = {"File": None}  # Initialize a new dictionary
+                counter = 1
                 for file in data:  # Iterate over each model
                     model = tf.keras.models.load_model(self.checkpoint_dir + "/" + file)  # load the model using the load_model function from keras
                     config = model.get_config()  # Get the config from the model
@@ -183,7 +187,13 @@ class Predict():
                     images, src_images, data = self.get_images(shape)
                     images = self.preprocess_data(images, shape)
                     predictions = model.predict(images)
-                    self.predict_data(src_images, predictions, data, file, "n")
+                    # probas = model.predict_proba(images)
+                    self.predict_data(src_images, predictions, data, file, "n", "n", counter)
+                    counter += 1
+                self.df2["File"] = data
+                df = pd.DataFrame(self.df2)
+                print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))  # Print the dictionary as a nice table
+
                 sys.exit(1)  # Exit program after all models are predicted
         else:  # There is only one model file in the directory
             file = data[0]
