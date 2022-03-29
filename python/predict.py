@@ -45,7 +45,15 @@ class Predict():
         data = sorted_nicely(data)
         for folder in data:  # Iterate over each folder
             folder_count += 1
-            f = os.listdir(self.path_data + "/" + folder)
+            try:
+                f = os.listdir(self.path_data + "/" + folder)
+            except:
+                print("=" * 100)
+                print("ERROR! Python could not open the folder '{}' inside the directory{}\n"
+                      "This is probably due to a file in your main directory.\n"
+                      "Make sure that the folder structure is the same as in your training directory and that the folder names are identical".format(folder, data))
+                print("=" * 100)
+                sys.exit(1)
             if ".DS_Store" in f:  # Only necessary for MacOS
                 os.remove(self.path_data + "/" + folder + "/" + ".DS_Store")
                 time.sleep(1)
@@ -66,7 +74,7 @@ class Predict():
                     print(e)
                     print("ERROR! OpenCV could not open the file '{}'\n"
                           "This is probably due to an invalid character in the file name or the file is corrupted in some way.\nRename "
-                          "the file and try again or check if there are folders or non image files in the directory: "
+                          "the file and try again or check if there are non image files in the directory: "
                           "\n'{}'.".format(file, str(self.path_data) + folder))
                     print("=" * 100)
                     sys.exit(1)
