@@ -27,6 +27,7 @@ Some key features are:
 - Choose different preprocessing options
 - Build the model via a few inputs
 - Choose preferred execution mode
+- Automatically calculate the accuracy of your test data
 
 **How it works:** All the available options for the CNN that can be selected are hard coded. 
 To pass the selected information on from the GUI or the command line the selected options are collectively stored in a dictionary. 
@@ -120,14 +121,14 @@ Make sure your training data and labels file (if you have one) fulfill the follo
 - You have one folder containing all the images for each category (no sub folders within a category)
 - You do not have a separate folder with validation images
 - The folder and file names contain only the following characters: **'a-z A-Z 0-9 _ - + . \*'**
-- The categories in your labels file appear in the same order as the alphabetically ordered folders in 'training_data' --> The category name for the third folder is in the third line in your labels file, and the category name for the fifth folder is in the fifth line in your labels file, etc.
-   
+
+  
 Run the [**start_gui.py**](start_gui.py) (GUI verison) or [**train_model.py**](train_model.py) (command line version) file. <br />
 You can select a background image for the gui by changing the value of the variable img in [**start_gui.py**](start_gui.py) <br />
 **Note:** By default all info, logs and warnings are deactivated. They can be turned back on if you change the following statement in line 2 in file 
 [**augmentation.py**](python/augmentation.py), [**preprocess.py**](python/preprocess.py), [**model.py**](python/model.py) and [**predict.py**](python/predict.py):
 ``` python
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Change this value to 0
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Change this value to 0 if you want to see info, logs, warnings
 ```
 
 ### Augmentation options
@@ -145,12 +146,13 @@ You have various options for image augmentation:
 
 You can choose one or more options by typing the displayed number separated by space. For example the input '2 5 7' will rotate the images by 90 degrees, randomly flip left or right and randomly change the hue.
 Type '1' or click enter to skip the augmentation. You can also delete your augmentations by typing '11'. <br />
-The values of hue, saturation, brightness and contrast can be changed in [**augmentation.py**](python/augmentation.py).
+The values of hue, saturation, brightness and contrast can be changed in [**augmentation.py**](python/augmentation.py). <br />
+Keep in mind that augmentation will be applied to every image and stored on your hard drive. Therefore, choosing many options on a big dataset can lead to a huge amount of time needed. If you want to add or change any augmentations you have to delete all augmentations first.
 
 **GUI version:** Select the augmentations via checkboxes.
 
 ### Label options
-A label file is used for assigning your folders names in form of a string. You can either provide a labels file in form of a csv or create a labels file with a built-in function in the code.
+A label file is used for assigning your folders names in form of a string. You can create a labels file with a built-in function in the code.
 If you choose to create the labels file via the built-in function you have to provide a name for each folder. Alternatively you can press enter without providing a name. 
 In this case the label name for the folder will be the same as the folder name itself.
 
@@ -223,10 +225,9 @@ Depending on your installation you might want to choose the execution mode yours
 **GUI version:** Select the path to the images you want to predict as well as the checkpoint path and labels path.
 
 **Make sure your prediction data fulfills the following conditions:**
-- The *predict_data* directory / your desired directory (if you use the GUI version) contains only images and no other files.
+- The *predict_data* directory / your desired directory (if you use the GUI version) has the same folder structure and folder names as your training directory and each folder contains only images.
 - All images are either **'.png'** or **'.jpg'** or **'.jpeg'**
 - The file names contain only the following characters: **'a-z A-Z 0-9 _ - + . \*'**
-- There are no subfolders within this directory.
 
 
 ## Change the predefined model structure
