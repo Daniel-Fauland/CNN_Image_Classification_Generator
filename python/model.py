@@ -79,7 +79,7 @@ class Model():
         history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size, validation_data=(x_val, y_val))  # Train the model
 
         now = datetime.now()
-        timestamp = now.strftime("%d_%m_%Y__%H_%M_%S")
+        timestamp = now.strftime("%Y_%m_%d__%H_%M_%S")
         if predefined != "y":
             print("\nYou can view the architecture of your latest model in 'python/model_summary.txt'")
         else:
